@@ -97,13 +97,13 @@ void    writeColor(Engine *engine, int x, int y, t_color color)
 double    hit_sphere(Vec3 center, double radius, t_ray r)
 {
     Vec3 oc = vectorSub(center, r.origin);
-    double a = dot(r.dir, r.dir);
-    double b = -2.0 * dot(r.dir, oc);
-    double c = dot(oc, oc) - radius*radius;
-    double discriminant = b*b - 4*a*c;
+    double a = lengthSqrd(r.dir);
+    double b = dot(r.dir, oc);
+    double c = lengthSqrd(oc) - radius*radius;
+    double discriminant = b*b - a*c;
     // return (discriminant >= 0);
     if (discriminant < 0)
         return (-1.0);
     else
-        return ((-b - sqrt(discriminant)) / (2.0 * a));
+        return ((b - sqrt(discriminant)) / a);
 }
