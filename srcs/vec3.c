@@ -5,7 +5,7 @@ Vec3    createVector(double x, double y, double z)
     Vec3    v = {
         .e[0] = x,
         .e[1] = y,
-        .e[2] = x
+        .e[2] = z
     };
     return(v);
 }
@@ -20,12 +20,32 @@ Vec3    vectorAdd(Vec3 v1, Vec3 v2)
     return(r);
 }
 
+Vec3    vectorSub(Vec3 v1, Vec3 v2)
+{
+    Vec3    r = {
+        .e[0] = v1.e[0] - v2.e[0],
+        .e[1] = v1.e[1] - v2.e[1],
+        .e[2] = v1.e[2] - v2.e[2],
+    };
+    return(r);
+}
+
 Vec3    vectorMult(Vec3 v1, Vec3 v2)
 {
     Vec3    r = {
         .e[0] = v1.e[0] * v2.e[0],
         .e[1] = v1.e[1] * v2.e[1],
         .e[2] = v1.e[2] * v2.e[2],
+    };
+    return(r);
+}
+
+Vec3    vectorMultD(Vec3 v1, double t)
+{
+    Vec3    r = {
+        .e[0] = v1.e[0] * t,
+        .e[1] = v1.e[1] * t,
+        .e[2] = v1.e[2] * t,
     };
     return(r);
 }

@@ -10,7 +10,9 @@ typedef struct  s_vec3
 
 Vec3    createVector(double x, double y, double z);
 Vec3    vectorAdd(Vec3 v1, Vec3 v2);
+Vec3    vectorSub(Vec3 v1, Vec3 v2);
 Vec3    vectorMult(Vec3 v1, Vec3 v2);
+Vec3    vectorMultD(Vec3 v1, double t);
 Vec3    vectorDiv(Vec3 v1, double t);
 Vec3    unitVector(const Vec3 v);
 double  lengthSqrd(Vec3 v);

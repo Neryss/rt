@@ -14,18 +14,31 @@ Engine *initEngine(int width, int height, char *title)
         return(NULL);
     if (!(engine->image = malloc(sizeof(Image))))
         return(NULL);
-    generateGradient(engine);
+    raytrace(engine);
     engine->image->data = engine->pixels;
     engine->image->width = engine->width;
     engine->image->height = engine->height;
     engine->image->mipmaps = 1;
     engine->image->format = PIXELFORMAT_UNCOMPRESSED_R8G8B8;
     engine->texture = LoadTextureFromImage(*engine->image);
+    initCamera(&engine->camera, engine->width, engine->height);
     return(engine);
 }
 
-void    generateGradient(Engine *engine)
+void    raytrace(Engine *engine)
 {
+    Vec3    vp_u = createVector(engine->camera.vp_width, 0, 0);
+    Vec3    vp_v = createVector(0, -engine->camera.vp_height, 0);
+
+    Vec3    pixel_delta_u = vectorDiv(vp_u, engine->width);
+    Vec3    pixel_delta_v = vectorDiv(vp_v, engine->height);
+
+    Vec3    _f = vectorSub(engine->camera.center, createVector(0, 0, engine->camera.focal_len));
+    Vec3    _s = vectorSub(vectorDiv(vp_u, 2), vectorDiv(vp_v, 2));
+    Vec3    vp_upper_left = vectorSub(_f, _s);
+
+    Vec3    origin_loc = vectorAdd(vp_upper_left, vectorMultD(vectorAdd(pixel_delta_u, pixel_delta_v), 0.5));
+    (void)origin_loc;
     for (int y = 0; y < engine->height; y++)
     {
         for (int x = 0; x < engine->width; x++)

@@ -9,10 +9,15 @@ NAME = ray
 
 HEADERS := \
 	includes/engine.h \
+	includes/camera.h \
+	includes/ray.h \
+	includes/vec3.h \
 
 SRCS := \
 	srcs/main.c \
 	srcs/engine.c \
+	srcs/camera.c \
+	srcs/vec3.c \
 
 OBJS = $(SRCS:%.c=%.o)
 
