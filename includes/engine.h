@@ -25,7 +25,7 @@ void    freeEngine(Engine *engine);
 void    raytrace(Engine *engine);
 void    render(Engine *engine);
 void    writeColor(Engine *engine, int x, int y, t_color color);
-bool    hit_sphere(Vec3 center, double radius, t_ray r);
+double  hit_sphere(Vec3 center, double radius, t_ray r);
 // void    putPxl(Engine *engine);
 
 #endif

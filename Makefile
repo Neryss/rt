@@ -20,6 +20,7 @@ SRCS := \
 	srcs/camera.c \
 	srcs/vec3.c \
 	srcs/color.c \
+	srcs/ray.c \
 
 OBJS = $(SRCS:%.c=%.o)
 

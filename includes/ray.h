@@ -9,4 +9,6 @@ typedef struct  s_ray
     Vec3    dir;
 }               t_ray;
 
+Vec3    at(const t_ray *r, double t);
+
 #endif
