@@ -2,6 +2,7 @@
 #define VEC3_H
 
 #include <math.h>
+#include <stdio.h>
 
 typedef struct  s_vec3
 {
@@ -19,6 +20,8 @@ double  lengthSqrd(Vec3 v);
 double  length(Vec3 v);
 double  dot(const Vec3 v1, const Vec3 v2);
 Vec3    cross(const Vec3 v1, const Vec3 v2);
+
+void    printVec3(const Vec3 *v);
 
 
 #endif
