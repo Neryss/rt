@@ -12,12 +12,14 @@ HEADERS := \
 	includes/camera.h \
 	includes/ray.h \
 	includes/vec3.h \
+	includes/color.h \
 
 SRCS := \
 	srcs/main.c \
 	srcs/engine.c \
 	srcs/camera.c \
 	srcs/vec3.c \
+	srcs/color.c \
 
 OBJS = $(SRCS:%.c=%.o)
 

@@ -7,6 +7,6 @@ typedef struct  s_ray
 {
     Vec3    origin;
     Vec3    dir;
-}               Ray
+}               t_ray;
 
 #endif

@@ -20,6 +20,7 @@ Vec3    vectorAdd(Vec3 v1, Vec3 v2)
     return(r);
 }
 
+
 Vec3    vectorSub(Vec3 v1, Vec3 v2)
 {
     Vec3    r = {

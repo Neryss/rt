@@ -43,13 +43,14 @@ void    raytrace(Engine *engine)
     {
         for (int x = 0; x < engine->width; x++)
         {
-            int index = (y * engine->width + x) * 3;
-            double r = (double)x / (engine->width - 1);
-            double g = (double)y / (engine->height - 1);
-            double b = 0;
-            engine->pixels[index] = (unsigned char)(255.999 * r);
-            engine->pixels[index + 1] = (unsigned char)(255.999 * g);
-            engine->pixels[index + 2] = (unsigned char)(255.999 * b);
+            Vec3 pixel_center = vectorAdd(origin_loc, vectorAdd(vectorMultD(pixel_delta_u, x), vectorMultD(pixel_delta_v, y)));
+            Vec3 ray_dir = vectorSub(pixel_center, engine->camera.center);
+            t_ray   r = {
+                .origin = engine->camera.center,
+                .dir = ray_dir
+            };
+            t_color p_color = rayColor(r);
+            writeColor(engine, x, y, p_color);
             // printf("%d %d %d\n", engine->pixels[index], engine->pixels[index + 1], engine->pixels[index + 2]);
         }
     }
@@ -73,4 +74,26 @@ void    freeEngine(Engine *engine)
     UnloadTexture(engine->texture);
     free(engine);
     return;
+}
+
+void    writeColor(Engine *engine, int x, int y, t_color color)
+{
+    int index = (y * engine->width + x) * 3;
+    double r = color.e[0];
+    double g = color.e[1];
+    double b = color.e[2];
+    engine->pixels[index] = (unsigned char)(255.999 * r);
+    engine->pixels[index + 1] = (unsigned char)(255.999 * g);
+    engine->pixels[index + 2] = (unsigned char)(255.999 * b);
+    // printf("%d %d %d\n", engine->pixels[index], engine->pixels[index + 1], engine->pixels[index + 2]);
+}
+
+bool    hit_sphere(Vec3 center, double radius, t_ray r)
+{
+    Vec3 oc = vectorSub(center, r.origin);
+    double a = dot(r.dir, r.dir);
+    double b = -2.0 * dot(r.dir, oc);
+    double c = dot(oc, oc) - radius*radius;
+    double discriminant = b*b - 4*a*c;
+    return (discriminant >= 0);
 }
