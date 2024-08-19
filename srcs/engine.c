@@ -9,6 +9,7 @@ Engine *initEngine(int width, int height, char *title)
     engine->width = width;
     engine->height = height;
     InitWindow(engine->width, engine->height, engine->title);
+    SetTargetFPS(165);
     if (!(engine->pixels = calloc(engine->width * engine->height * 3, sizeof(unsigned char))))
         return(NULL);
     if (!(engine->image = malloc(sizeof(Image))))
@@ -56,7 +57,7 @@ void    freeEngine(Engine *engine)
         free(engine->pixels);
     if (engine->image)
         free(engine->image);
-    // UnloadTexture(engine->texture);
+    UnloadTexture(engine->texture);
     free(engine);
     return;
 }
