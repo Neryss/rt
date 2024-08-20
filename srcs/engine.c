@@ -24,34 +24,25 @@ Engine *initEngine(int width, int height, char *title)
     return(engine);
 }
 
+static t_ray    getPixelRay(Engine *engine, int x, int y)
+{
+    Vec3 pixel_center = vectorAdd(engine->camera.origin_loc, vectorAdd(vectorMultD(engine->camera.pixel_deltas.pixel_delta_u, x),\
+                            vectorMultD(engine->camera.pixel_deltas.pixel_delta_v, y)));
+    Vec3 ray_dir = (vectorSub(pixel_center, engine->camera.center));
+    t_ray   r = {
+        .origin = engine->camera.center,
+        .dir = ray_dir
+    };
+    return(r);
+}
+
 void    raytrace(Engine *engine)
 {
-    // this seems ok
-    Vec3    vp_u = createVector(engine->camera.vp_width, 0, 0);
-    Vec3    vp_v = createVector(0, -engine->camera.vp_height, 0);
-
-    Vec3    pixel_delta_u = vectorDiv(vp_u, engine->width);
-    Vec3    pixel_delta_v = vectorDiv(vp_v, engine->height);
-
-    Vec3    vp_u_div2 = vectorDiv(vp_u, 2);
-    Vec3    vp_v_div2 = vectorDiv(vp_v, 2);
-
-    Vec3    tmp1 = vectorSub(engine->camera.center, createVector(0, 0, engine->camera.focal_len));
-    Vec3    tmp2 = vectorSub(tmp1, vp_u_div2);
-    Vec3    vp_upper_left = vectorSub(tmp2, vp_v_div2);
-
-    Vec3    origin_loc = vectorAdd(vp_upper_left, vectorMultD(vectorAdd(pixel_delta_u, pixel_delta_v), 0.5));
-    (void)origin_loc;
     for (int y = 0; y < engine->height; y++)
     {
         for (int x = 0; x < engine->width; x++)
         {
-            Vec3 pixel_center = vectorAdd(origin_loc, vectorAdd(vectorMultD(pixel_delta_u, x), vectorMultD(pixel_delta_v, y)));
-            Vec3 ray_dir = unitVector(vectorSub(pixel_center, engine->camera.center));
-            t_ray   r = {
-                .origin = engine->camera.center,
-                .dir = ray_dir
-            };
+            t_ray   r = getPixelRay(engine, x, y);
             t_color p_color = rayColor(r);
             writeColor(engine, x, y, p_color);
         }

@@ -8,6 +8,7 @@
 #include "camera.h"
 #include "color.h"
 #include "ray.h"
+
 typedef Vec3 t_color;
 typedef struct s_engine
 {
@@ -17,7 +18,7 @@ typedef struct s_engine
     unsigned char   *pixels;
     Image           *image;
     Texture2D       texture;
-    t_camera          camera;
+    t_camera        camera;
 }               Engine;
 
 Engine  *initEngine(int width, int height, char *title);

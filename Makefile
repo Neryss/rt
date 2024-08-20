@@ -1,5 +1,5 @@
 CC = gcc
-CC_FLAGS = -Wall -Wextra -Werror -g3
+CC_FLAGS = -Wall -Wextra -Werror -O3
 INCLUDE =
 LIB =
 L_FLAGS = -lraylib -lGL -lm -lpthread -lrt -lX11
