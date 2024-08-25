@@ -21,6 +21,7 @@ Engine *initEngine(int width, int height, char *title)
     engine->image->format = PIXELFORMAT_UNCOMPRESSED_R8G8B8;
     engine->texture = LoadTextureFromImage(*engine->image);
     initCamera(&engine->camera, engine->width, engine->height);
+    engine->sphere = createSphere(createVector(0, 0, -1), 0.5);
     return(engine);
 }
 
@@ -43,7 +44,7 @@ void    raytrace(Engine *engine)
         for (int x = 0; x < engine->width; x++)
         {
             t_ray   r = getPixelRay(engine, x, y);
-            t_color p_color = rayColor(r);
+            t_color p_color = rayColor(engine, r);
             writeColor(engine, x, y, p_color);
         }
     }
@@ -83,18 +84,4 @@ void    writeColor(Engine *engine, int x, int y, t_color color)
     pixels[index + 1] = (unsigned char)(255.999 * g);
     pixels[index + 2] = (unsigned char)(255.999 * b);
     // printf("%d %d %d\n", pixels[index], pixels[index + 1], pixels[index + 2]);
-}
-
-double    hit_sphere(Vec3 center, double radius, t_ray r)
-{
-    Vec3 oc = vectorSub(center, r.origin);
-    double a = lengthSqrd(r.dir);
-    double b = dot(r.dir, oc);
-    double c = lengthSqrd(oc) - radius*radius;
-    double discriminant = b*b - a*c;
-    // return (discriminant >= 0);
-    if (discriminant < 0)
-        return (-1.0);
-    else
-        return ((b - sqrt(discriminant)) / a);
 }

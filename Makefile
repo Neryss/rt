@@ -13,6 +13,7 @@ HEADERS := \
 	includes/ray.h \
 	includes/vec3.h \
 	includes/color.h \
+	includes/sphere.h \
 
 SRCS := \
 	srcs/main.c \
@@ -21,6 +22,7 @@ SRCS := \
 	srcs/vec3.c \
 	srcs/color.c \
 	srcs/ray.c \
+	srcs/sphere.c \
 
 OBJS = $(SRCS:%.c=%.o)
 
