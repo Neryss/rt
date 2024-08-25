@@ -9,6 +9,7 @@
 #include "color.h"
 #include "ray.h"
 #include "sphere.h"
+#include "scene.h"
 
 typedef Vec3 t_color;
 typedef struct s_engine
@@ -21,6 +22,7 @@ typedef struct s_engine
     Texture2D       texture;
     t_camera        camera;
     t_sphere        sphere;
+    t_scene         scene;
 }               Engine;
 
 Engine  *initEngine(int width, int height, char *title);

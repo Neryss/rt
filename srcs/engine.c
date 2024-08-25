@@ -22,6 +22,7 @@ Engine *initEngine(int width, int height, char *title)
     engine->texture = LoadTextureFromImage(*engine->image);
     initCamera(&engine->camera, engine->width, engine->height);
     engine->sphere = createSphere(createVector(0, 0, -1), 0.5);
+    engine->scene = createScene();
     return(engine);
 }
 
@@ -69,6 +70,7 @@ void    freeEngine(Engine *engine)
     if (engine->image)
         free(engine->image);
     UnloadTexture(engine->texture);
+    freeScene(&engine->scene);
     free(engine);
     return;
 }
