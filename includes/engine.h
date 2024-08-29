@@ -30,5 +30,6 @@ void    freeEngine(Engine *engine);
 void    raytrace(Engine *engine);
 void    render(Engine *engine);
 void    writeColor(Engine *engine, int x, int y, t_color color);
+void    handleInputs(Engine *engine);
 
 #endif

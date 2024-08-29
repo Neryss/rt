@@ -51,9 +51,28 @@ void    raytrace(Engine *engine)
     }
 }
 
+void    handleInputs(Engine *engine)
+{
+    Vec3    new_pos = engine->camera.center;
+    if (IsKeyDown(KEY_A))
+        new_pos.e[0] -= 0.05;
+    if (IsKeyDown(KEY_D))
+        new_pos.e[0] += 0.05;
+    if (IsKeyDown(KEY_W))
+        new_pos.e[2] -= 0.05;
+    if (IsKeyDown(KEY_S))
+        new_pos.e[2] += 0.05;
+    if (IsKeyDown(KEY_SPACE))
+        new_pos.e[1] += 0.05;
+    if (IsKeyDown(KEY_LEFT_SHIFT))
+        new_pos.e[1] -= 0.05;
+    updateCamera(&engine->camera, new_pos, engine->width, engine->height);
+}
+
 void    render(Engine *engine)
 {
     BeginDrawing();
+    handleInputs(engine);
     raytrace(engine);
     UpdateTexture(engine->texture, engine->image->data);
     int fps = GetFPS();

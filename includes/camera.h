@@ -19,5 +19,6 @@ typedef struct  s_camera
 }               t_camera;
 
 void    initCamera(t_camera *cam, int width, int height);
+void    updateCamera(t_camera *cam, Vec3 new_pos, int width, int height);
 
 #endif

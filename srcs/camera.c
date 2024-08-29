@@ -39,3 +39,26 @@ void    initCamera(t_camera *cam, int width, int height)
     cam->pixel_deltas.pixel_delta_u = pixel_delta_u;
     cam->pixel_deltas.pixel_delta_v = pixel_delta_v;
 }
+
+void    updateCamera(t_camera *cam, Vec3 new_pos, int width, int height)
+{
+    cam->center = new_pos;
+    Vec3    vp_u = createVector(cam->vp_width, 0, 0);
+    Vec3    vp_v = createVector(0, -cam->vp_height, 0);
+
+    // calculates the offset between pixels
+    Vec3    pixel_delta_u = vectorDiv(vp_u, width);
+    Vec3    pixel_delta_v = vectorDiv(vp_v, height);
+
+    Vec3    vp_u_div2 = vectorDiv(vp_u, 2);
+    Vec3    vp_v_div2 = vectorDiv(vp_v, 2);
+
+    Vec3    tmp1 = vectorSub(cam->center, createVector(0, 0, cam->focal_len));
+    Vec3    tmp2 = vectorSub(tmp1, vp_u_div2);
+    Vec3    vp_upper_left = vectorSub(tmp2, vp_v_div2);
+
+    // upper left pixel location
+    cam->origin_loc = vectorAdd(vp_upper_left, vectorMultD(vectorAdd(pixel_delta_u, pixel_delta_v), 0.5));
+    cam->pixel_deltas.pixel_delta_u = pixel_delta_u;
+    cam->pixel_deltas.pixel_delta_v = pixel_delta_v;
+}
