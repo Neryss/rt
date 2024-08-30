@@ -26,16 +26,33 @@ Engine *initEngine(int width, int height, char *title)
     return(engine);
 }
 
+static Vec3 sampleSquare()
+{
+    return(createVector(random_double(0.0, 1.0) - .5, random_double(0.0, 1.0) - .5, 0));
+}
+
 static t_ray    getPixelRay(Engine *engine, int x, int y)
 {
-    Vec3 pixel_center = vectorAdd(engine->camera.origin_loc, vectorAdd(vectorMultD(engine->camera.pixel_deltas.pixel_delta_u, x),\
-                            vectorMultD(engine->camera.pixel_deltas.pixel_delta_v, y)));
-    Vec3 ray_dir = (vectorSub(pixel_center, engine->camera.center));
+    Vec3    offset = sampleSquare();
+    // printf("%f%f%f\n", offset.e[0], offset.e[1], offset.e[2]);
+    // Vec3 pixel_sample = vectorAdd(
+    //     vectorAdd(engine->camera.origin_loc, vectorMultD(engine->camera.pixel_deltas.pixel_delta_u, (x + offset.e[0]))),
+    //     vectorMultD(engine->camera.pixel_deltas.pixel_delta_v, (y + offset.e[1]))
+    // );
+    Vec3 pixel_sample = vectorAdd(engine->camera.origin_loc, vectorAdd(vectorMultD(engine->camera.pixel_deltas.pixel_delta_u, x + offset.e[0]),
+                            vectorMultD(engine->camera.pixel_deltas.pixel_delta_v, y + offset.e[1])));
+    Vec3    r_dir = vectorSub(pixel_sample, engine->camera.center);
     t_ray   r = {
         .origin = engine->camera.center,
-        .dir = ray_dir
+        .dir = r_dir
     };
     return(r);
+    // Vec3 ray_dir = (vectorSub(pixel_center, engine->camera.center));
+    // t_ray   r = {
+    //     .origin = engine->camera.center,
+    //     .dir = ray_dir
+    // };
+    // return(r);
 }
 
 void    raytrace(Engine *engine)
@@ -44,9 +61,13 @@ void    raytrace(Engine *engine)
     {
         for (int x = 0; x < engine->width; x++)
         {
-            t_ray   r = getPixelRay(engine, x, y);
-            t_color p_color = rayColor(engine, r);
-            writeColor(engine, x, y, p_color);
+            t_color color = createVector(0, 0, 0);
+            for (int sample = 0; sample < engine->camera.sample_pp; sample++)
+            {
+                t_ray   r = getPixelRay(engine, x, y);
+                color = vectorAdd(color, rayColor(engine, r));
+            }
+            writeColor(engine, x, y, vectorMultD(color, engine->camera.pixels_samples_scale));
         }
     }
 }
@@ -101,8 +122,13 @@ void    writeColor(Engine *engine, int x, int y, t_color color)
     double r = color.e[0];
     double g = color.e[1];
     double b = color.e[2];
-    pixels[index] = (unsigned char)(255.999 * r);
-    pixels[index + 1] = (unsigned char)(255.999 * g);
-    pixels[index + 2] = (unsigned char)(255.999 * b);
+    // printf("Color: %f %f %f\n", r, g, b);
+    pixels[index] = (unsigned char)(255.999 * clamp(r, 0.000, 0.999));
+    pixels[index + 1] = (unsigned char)(255.999 * clamp(g, 0.000, 0.999));
+    pixels[index + 2] = (unsigned char)(255.999 * clamp(b, 0.000, 0.999));
+    // pixels[index] = (unsigned char)(255.999 * r);
+    // pixels[index + 1] = (unsigned char)(255.999 * g);
+    // pixels[index + 2] = (unsigned char)(255.999 * b);
+    // printf("%d %d %d\n", pixels[index], pixels[index + 1], pixels[index + 2]);
     // printf("%d %d %d\n", pixels[index], pixels[index + 1], pixels[index + 2]);
 }

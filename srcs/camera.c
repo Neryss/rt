@@ -17,6 +17,8 @@ void    initCamera(t_camera *cam, int width, int height)
     cam->vp_height = 2.0;
     cam->vp_width = cam->vp_height * ((double)width / height);
     cam->center = createVector(0, 0, 0);
+    cam->sample_pp = 10;
+    cam->pixels_samples_scale = 1.0 / cam->sample_pp;
 
     // this might need to be recalculated evey resize and/or camera movement
     // Calculates the vectors for the horizontal and vertical viewport length

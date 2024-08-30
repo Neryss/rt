@@ -1,5 +1,5 @@
 CC = gcc
-CC_FLAGS = -Wall -Wextra -Werror -O3
+CC_FLAGS = -Wall -Wextra -Werror -O2
 INCLUDE =
 LIB =
 L_FLAGS = -lraylib -lGL -lm -lpthread -lrt -lX11
@@ -15,6 +15,7 @@ HEADERS := \
 	includes/color.h \
 	includes/sphere.h \
 	includes/scene.h \
+	includes/utils.h \
 
 SRCS := \
 	srcs/main.c \
@@ -25,6 +26,7 @@ SRCS := \
 	srcs/ray.c \
 	srcs/sphere.c \
 	srcs/scene.c \
+	srcs/utils.c \
 
 OBJS = $(SRCS:%.c=%.o)
 

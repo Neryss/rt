@@ -10,6 +10,7 @@
 #include "ray.h"
 #include "sphere.h"
 #include "scene.h"
+#include "utils.h"
 
 typedef Vec3 t_color;
 typedef struct s_engine
