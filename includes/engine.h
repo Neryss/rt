@@ -11,6 +11,7 @@
 #include "sphere.h"
 #include "scene.h"
 #include "utils.h"
+#include "multi_threading.h"
 
 typedef Vec3 t_color;
 typedef struct s_engine
@@ -26,6 +27,7 @@ typedef struct s_engine
 }               Engine;
 
 Engine  *initEngine(int width, int height, char *title);
+t_ray    getPixelRay(Engine *engine, int x, int y);
 void    freeEngine(Engine *engine);
 void    raytrace(Engine *engine);
 void    render(Engine *engine);

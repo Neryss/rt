@@ -7,7 +7,7 @@ int main(int argc, char **argv)
     (void)argv;
     Engine  *engine = NULL;
 
-    engine = initEngine(800, 450, "This is a test");
+    engine = initEngine(800, 450, "Now with more threads!");
     while (!WindowShouldClose())
     {
         render(engine);

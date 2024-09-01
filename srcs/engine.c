@@ -30,7 +30,7 @@ Engine *initEngine(int width, int height, char *title)
 //     return(createVector(random_double(0.0, 1.0) - .5, random_double(0.0, 1.0) - .5, 0));
 // }
 
-static t_ray    getPixelRay(Engine *engine, int x, int y)
+t_ray    getPixelRay(Engine *engine, int x, int y)
 {
     Vec3 pixel_sample = vectorAdd(engine->camera.origin_loc, vectorAdd(vectorMultD(engine->camera.pixel_deltas.pixel_delta_u, x),
                             vectorMultD(engine->camera.pixel_deltas.pixel_delta_v, y)));
@@ -78,7 +78,8 @@ void    render(Engine *engine)
 {
     BeginDrawing();
     handleInputs(engine);
-    raytrace(engine);
+    // raytrace(engine);
+    multi_thread(engine);
     UpdateTexture(engine->texture, engine->image->data);
     int fps = GetFPS();
     ClearBackground(RAYWHITE);
