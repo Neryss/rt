@@ -1,10 +1,11 @@
 #include "../includes/sphere.h"
 
-t_sphere    createSphere(Vec3   pos, double r)
+t_sphere    createSphere(Vec3   pos, double r, t_color color)
 {
     t_sphere    sphere = {
         pos = pos,
-        r = r
+        r = r,
+        color = color
     };
     return (sphere);
 }
@@ -34,7 +35,14 @@ bool    hit_sphere(t_sphere *sphere, t_ray  *r, double r_tmin, double r_tmax, t_
     }
     rec->t = root;
     rec->point = at(r, rec->t);
-    rec->normal = vectorDiv(vectorSub(rec->point, sphere->pos), sphere->radius);
+    rec->normal = unitVector(vectorDiv(vectorSub(rec->point, sphere->pos), sphere->radius));
+
+    Vec3    light_dir = unitVector(createVector(-1, -1, -1));
+
+    float   d = maxd(dot(rec->normal, negate(light_dir)), 0.0);
+
+    rec->color = vectorMultD(sphere->color, d);
+
     set_face_normal(rec, r, &rec->normal);
     return (true);
 }

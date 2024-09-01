@@ -76,6 +76,16 @@ Vec3  cross(const Vec3 v1, const Vec3 v2)
     return(r);
 }
 
+Vec3    negate(Vec3 v)
+{
+    Vec3 tmp = {
+        .e[0] = -v.e[0],
+        .e[1] = -v.e[1],
+        .e[2] = -v.e[2],
+    };
+    return (tmp);
+}
+
 double  lengthSqrd(Vec3 v)
 {
     return(v.e[0] * v.e[0] + v.e[1] * v.e[1] + v.e[2] * v.e[2]);
@@ -90,6 +100,7 @@ double  dot(const Vec3 v1, const Vec3 v2)
 {
     return (v1.e[0] * v2.e[0] + v1.e[1] * v2.e[1] + v1.e[2] * v2.e[2]);
 }
+
 
 void    printVec3(const Vec3 *v)
 {

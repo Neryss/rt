@@ -18,11 +18,10 @@ typedef struct s_engine
     int             width;
     int             height;
     char            *title;
-    unsigned char   *pixels;
+    uint32_t        *pixels;
     Image           *image;
     Texture2D       texture;
     t_camera        camera;
-    t_sphere        sphere;
     t_scene         scene;
 }               Engine;
 
@@ -30,7 +29,7 @@ Engine  *initEngine(int width, int height, char *title);
 void    freeEngine(Engine *engine);
 void    raytrace(Engine *engine);
 void    render(Engine *engine);
-void    writeColor(Engine *engine, int x, int y, t_color color);
+void    writeColor(Engine *engine, int x, int y, uint32_t color);
 void    handleInputs(Engine *engine);
 
 #endif

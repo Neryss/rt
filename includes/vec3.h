@@ -16,6 +16,7 @@ Vec3    vectorMult(Vec3 v1, Vec3 v2);
 Vec3    vectorMultD(Vec3 v1, double t);
 Vec3    vectorDiv(Vec3 v1, double t);
 Vec3    unitVector(const Vec3 v);
+Vec3    negate(Vec3 v);
 double  lengthSqrd(Vec3 v);
 double  length(Vec3 v);
 double  dot(const Vec3 v1, const Vec3 v2);

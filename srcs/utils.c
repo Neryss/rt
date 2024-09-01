@@ -27,6 +27,13 @@ double random_double(double min, double max) {
     return min + scale * (max - min);         // Scale and shift to the range [min, max]
 }
 
+double  maxd(double value, double max)
+{
+    if (value > max)
+        return (value);
+    return (max);
+}
+
 // double RandomValueNormalDistribution(int state)
 // {
 //     // Thanks to https://stackoverflow.com/a/6178290
