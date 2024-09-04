@@ -1,8 +1,8 @@
 CC = gcc
 CC_FLAGS = -Wall -Wextra -Werror -g3
-INCLUDE =
-LIB =
-L_FLAGS = -lraylib -lGL -lm -lpthread -lrt -lX11
+INCLUDE = -I./libft
+LIB = -L./libft
+L_FLAGS = -lraylib -lGL -lm -lpthread -lrt -lX11 -lft
 MAKEFLAGS += -j
 
 NAME = ray
@@ -36,6 +36,7 @@ OBJS = $(SRCS:%.c=%.o)
 	$(CC) $(CC_FLAGS) $(INCLUDE) -c $< -o $@
 
 $(NAME): $(OBJS)
+	$(MAKE) -C ./libft
 	$(CC) $(CC_FLAGS) $(OBJS) $(INCLUDE) $(LIB) $(L_FLAGS) -o $(NAME)
 
 all: $(NAME)
@@ -44,6 +45,7 @@ clean:
 	rm -rf srcs/*.o
 
 fclean: clean
+	$(MAKE) -C ./libft fclean
 	rm -rf $(NAME)
 
 re: fclean

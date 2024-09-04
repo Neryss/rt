@@ -12,6 +12,7 @@
 #include "scene.h"
 #include "utils.h"
 #include "multi_threading.h"
+#include "../libft/libft.h"
 
 typedef Vec3 t_color;
 typedef struct s_engine

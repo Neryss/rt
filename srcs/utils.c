@@ -34,6 +34,13 @@ double  maxd(double value, double max)
     return (max);
 }
 
+int     min(int a, int b)
+{
+    if (a < b)
+        return (a);
+    return (b);
+}
+
 // double RandomValueNormalDistribution(int state)
 // {
 //     // Thanks to https://stackoverflow.com/a/6178290

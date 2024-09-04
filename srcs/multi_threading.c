@@ -25,12 +25,14 @@ void    *multi_raytracing(void *args)
 
 void    multi_thread(Engine *engine)
 {
+    // TODO: get rid of allocation here, out of the loop = less malloc->free
     long                avail_threads;
     pthread_t           *threads;
     t_thread_handler    *args;
     int                 to = 0;
 
     avail_threads = sysconf(_SC_NPROCESSORS_ONLN);
+    // avail_threads = 4;
     if (!(threads = (pthread_t *)malloc(sizeof(pthread_t) * avail_threads)))
         return;
     if (!(args = (t_thread_handler *)malloc(sizeof(t_thread_handler) * avail_threads)))
@@ -38,11 +40,11 @@ void    multi_thread(Engine *engine)
     for (int i = 0; i < avail_threads; i++)
     {
         args[i].from_to[0] = to;
-        to += (int)(engine->height / avail_threads);
+        // TODO: better check since it misses a scanline
+        to += min(engine->height - 1, (engine->height / avail_threads));
         args[i].from_to[1] = to;
         args[i].id = i;
         args[i].engine = engine;
-        
         if (pthread_create(&threads[i], NULL, (void *)multi_raytracing, &args[i]))
             return;
     }
