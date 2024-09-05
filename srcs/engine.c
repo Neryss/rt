@@ -56,22 +56,39 @@ void    raytrace(Engine *engine)
     }
 }
 
-void    handleInputs(Engine *engine)
+void handleInputs(Engine *engine)
 {
-    Vec3    new_pos = engine->camera.center;
-    if (IsKeyDown(KEY_A))
-        new_pos.e[0] -= 0.05;
-    if (IsKeyDown(KEY_D))
-        new_pos.e[0] += 0.05;
-    if (IsKeyDown(KEY_W))
-        new_pos.e[2] -= 0.05;
-    if (IsKeyDown(KEY_S))
-        new_pos.e[2] += 0.05;
-    if (IsKeyDown(KEY_SPACE))
-        new_pos.e[1] += 0.05;
-    if (IsKeyDown(KEY_LEFT_SHIFT))
-        new_pos.e[1] -= 0.05;
-    updateCamera(&engine->camera, new_pos, engine->camera.look_at, engine->width, engine->height);
+    t_camera *cam = &engine->camera;
+    Vec3 forward = unitVector(vectorSub(cam->look_at, cam->center));
+    Vec3 right = unitVector(cross(cam->up, forward));
+    Vec3 up = cam->up;
+
+    // Camera movement
+    if (IsKeyDown(KEY_A)) // Move left
+        moveCamera(cam, right, -.05);
+    if (IsKeyDown(KEY_D)) // Move right
+        moveCamera(cam, right, .05);
+    if (IsKeyDown(KEY_W)) // Move forward
+        moveCamera(cam, forward, .05);
+    if (IsKeyDown(KEY_S)) // Move backward
+        moveCamera(cam, forward, -.05);
+    if (IsKeyDown(KEY_SPACE)) // Move up
+        moveCamera(cam, up, .05);
+    if (IsKeyDown(KEY_LEFT_SHIFT)) // Move down
+        moveCamera(cam, up, -.05);
+
+    // Camera rotation
+    if (IsKeyDown(KEY_LEFT)) // Look left
+        rotateCamera(cam, .005, 0);
+    if (IsKeyDown(KEY_RIGHT)) // Look right
+        rotateCamera(cam, -.005, 0);
+    if (IsKeyDown(KEY_UP)) // Look up
+        rotateCamera(cam, 0, .005);
+    if (IsKeyDown(KEY_DOWN)) // Look down
+        rotateCamera(cam, 0, -.005);
+
+    // Update camera state based on new position and orientation
+    updateCamera(cam, engine->width, engine->height);
 }
 
 void    render(Engine *engine)
