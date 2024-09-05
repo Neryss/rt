@@ -15,6 +15,7 @@ typedef struct  s_camera
     double          vp_height;
     double          vp_width;
     Vec3            center;
+    Vec3            look_at;
     Vec3            origin_loc;
     t_pixel_deltas  pixel_deltas;
     // int             sample_pp;
@@ -23,6 +24,6 @@ typedef struct  s_camera
 }               t_camera;
 
 void    initCamera(t_camera *cam, int width, int height);
-void    updateCamera(t_camera *cam, Vec3 new_pos, int width, int height);
+void    updateCamera(t_camera *cam, Vec3 new_pos, Vec3 look_at, int width, int height);
 
 #endif

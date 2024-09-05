@@ -71,7 +71,7 @@ void    handleInputs(Engine *engine)
         new_pos.e[1] += 0.05;
     if (IsKeyDown(KEY_LEFT_SHIFT))
         new_pos.e[1] -= 0.05;
-    updateCamera(&engine->camera, new_pos, engine->width, engine->height);
+    updateCamera(&engine->camera, new_pos, engine->camera.look_at, engine->width, engine->height);
 }
 
 void    render(Engine *engine)
