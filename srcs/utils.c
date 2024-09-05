@@ -41,6 +41,12 @@ int     min(int a, int b)
     return (b);
 }
 
+double  degrees_to_radians(double degrees)
+{
+    return (degrees * M_PI / 180.0);
+}
+
+
 // double RandomValueNormalDistribution(int state)
 // {
 //     // Thanks to https://stackoverflow.com/a/6178290

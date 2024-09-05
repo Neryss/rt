@@ -13,12 +13,16 @@ void    initCamera(t_camera *cam, int width, int height)
     // // Viewport widths less than one are ok since they are real valued.
     // auto viewport_height = 2.0;
     // auto viewport_width = viewport_height * (double(image_width)/image_height);
+    cam->fov = 60;
     cam->focal_len = 1.0;
-    cam->vp_height = 2.0;
+    double  theta = degrees_to_radians(cam->fov);
+    double  h = tan(theta/2);
+    cam->vp_height = 2.0 * h * cam->focal_len;
+    
     cam->vp_width = cam->vp_height * ((double)width / height);
     cam->center = createVector(0, 0, 0);
-    cam->sample_pp = 10;
-    cam->pixels_samples_scale = 1.0 / cam->sample_pp;
+    // cam->sample_pp = 10;
+    // cam->pixels_samples_scale = 1.0 / cam->sample_pp;
 
     // this might need to be recalculated evey resize and/or camera movement
     // Calculates the vectors for the horizontal and vertical viewport length

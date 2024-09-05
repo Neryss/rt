@@ -17,6 +17,7 @@ HEADERS := \
 	includes/scene.h \
 	includes/utils.h \
 	includes/multi_threading.h \
+	includes/stb_image_write.h \
 
 SRCS := \
 	srcs/main.c \

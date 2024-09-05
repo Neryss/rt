@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "vec3.h"
+#include "utils.h"
 
 typedef struct  s_pixel_deltas
 {
@@ -16,8 +17,9 @@ typedef struct  s_camera
     Vec3            center;
     Vec3            origin_loc;
     t_pixel_deltas  pixel_deltas;
-    int             sample_pp;
-    double          pixels_samples_scale;
+    // int             sample_pp;
+    // double          pixels_samples_scale;
+    double          fov;
 }               t_camera;
 
 void    initCamera(t_camera *cam, int width, int height);

@@ -12,6 +12,7 @@
 #include "scene.h"
 #include "utils.h"
 #include "multi_threading.h"
+// I can use the whole c lib so not really needed
 #include "../libft/libft.h"
 
 typedef Vec3 t_color;
@@ -34,5 +35,6 @@ void    raytrace(Engine *engine);
 void    render(Engine *engine);
 void    writeColor(Engine *engine, int x, int y, uint32_t color);
 void    handleInputs(Engine *engine);
+void    saveImage(Engine *engine, const char *filename);
 
 #endif
