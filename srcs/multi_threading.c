@@ -1,15 +1,32 @@
 #include "../includes/multi_threading.h"
 #include "../includes/engine.h"
 
-typedef struct s_thread_handler {
-    int     from_to[2];
-    int     id;
-    Engine *engine;
-}       t_thread_handler;
+t_threads_manager   *createThreadsManager(Engine *engine)
+{
+    t_threads_manager   *threads_manager = (t_threads_manager *)malloc(sizeof(t_threads_manager));
+    int                 to = 0;
+
+    if (!threads_manager)
+        return NULL;
+    threads_manager->avail_threads = sysconf(_SC_NPROCESSORS_ONLN);
+    if (!(threads_manager->threads = (pthread_t *)malloc(sizeof(pthread_t) * threads_manager->avail_threads)))
+        return NULL;
+    if (!(threads_manager->args = (t_thread_args *)malloc(sizeof(t_thread_args) * threads_manager->avail_threads)))
+        return NULL;
+    for (int i = 0; i < threads_manager->avail_threads; i++)
+    {
+        threads_manager->args[i].from_to[0] = to;
+        to += min(engine->height - 1, (engine->height / threads_manager->avail_threads));
+        threads_manager->args[i].from_to[1] = to;
+        threads_manager->args[i].id = i;
+        threads_manager->args[i].engine = engine;
+    }
+    return (threads_manager);
+}
 
 void    *multi_raytracing(void *args)
 {
-    t_thread_handler *handler = (t_thread_handler *)args;
+    t_thread_args *handler = (t_thread_args *)args;
     for (int y = handler->from_to[0]; y < handler->from_to[1]; y++)
     {
         for (int x = 0; x < handler->engine->width; x++)
@@ -23,36 +40,21 @@ void    *multi_raytracing(void *args)
     return(NULL);
 }
 
-void    multi_thread(Engine *engine)
+int                runThreads(t_threads_manager *manager)
 {
-    // TODO: get rid of allocation here, out of the loop = less malloc->free
-    long                avail_threads;
-    pthread_t           *threads;
-    t_thread_handler    *args;
-    int                 to = 0;
+    for (int i = 0; i < manager->avail_threads; i++)
+    {
+        if (pthread_create(&manager->threads[i], NULL, (void *)multi_raytracing, &manager->args[i]))
+            return(1);
+    }
+    for (int i = 0; i < manager->avail_threads; i++)
+        pthread_join(manager->threads[i], NULL);
+    return(0);
+}
 
-    avail_threads = sysconf(_SC_NPROCESSORS_ONLN);
-    // avail_threads = 4;
-    if (!(threads = (pthread_t *)malloc(sizeof(pthread_t) * avail_threads)))
-        return;
-    if (!(args = (t_thread_handler *)malloc(sizeof(t_thread_handler) * avail_threads)))
-        return;
-    for (int i = 0; i < avail_threads; i++)
-    {
-        args[i].from_to[0] = to;
-        // TODO: better check since it misses a scanline
-        to += min(engine->height - 1, (engine->height / avail_threads));
-        args[i].from_to[1] = to;
-        args[i].id = i;
-        args[i].engine = engine;
-        if (pthread_create(&threads[i], NULL, (void *)multi_raytracing, &args[i]))
-            return;
-    }
-    for (int i = 0; i < avail_threads; i++)
-    {
-        pthread_join(threads[i], NULL);
-    }
-    free(threads);
-    free(args);
-    return;
+void                freeManager(t_threads_manager *manager)
+{
+    free(manager->threads);
+    free(manager->args);
+    free(manager);
 }

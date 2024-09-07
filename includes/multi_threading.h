@@ -4,8 +4,21 @@
 #include <pthread.h>
 #include <unistd.h>
 
-struct s_engine;
+typedef struct s_engine Engine;
+typedef struct s_thread_handler {
+    int     from_to[2];
+    int     id;
+    Engine *engine;
+}       t_thread_args;
 
-void    multi_thread(struct s_engine *engine);
+typedef struct s_threads_manager {
+    long                avail_threads;
+    pthread_t           *threads;
+    t_thread_args    *args;
+}       t_threads_manager;
+
+t_threads_manager   *createThreadsManager(Engine *engine);
+int                 runThreads(t_threads_manager *manager);
+void                freeManager(t_threads_manager *manager);
 
 #endif

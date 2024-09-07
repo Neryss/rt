@@ -22,6 +22,7 @@ Engine *initEngine(int width, int height, char *title)
     engine->texture = LoadTextureFromImage(*engine->image);
     initCamera(&engine->camera, engine->width, engine->height);
     engine->scene = createScene();
+    engine->threads_manager = createThreadsManager(engine);
     return(engine);
 }
 
@@ -65,9 +66,9 @@ void handleInputs(Engine *engine)
 
     // Camera movement
     if (IsKeyDown(KEY_A)) // Move left
-        moveCamera(cam, right, -.05);
-    if (IsKeyDown(KEY_D)) // Move right
         moveCamera(cam, right, .05);
+    if (IsKeyDown(KEY_D)) // Move right
+        moveCamera(cam, right, -.05);
     if (IsKeyDown(KEY_W)) // Move forward
         moveCamera(cam, forward, .05);
     if (IsKeyDown(KEY_S)) // Move backward
@@ -96,7 +97,7 @@ void    render(Engine *engine)
     BeginDrawing();
     handleInputs(engine);
     // raytrace(engine);
-    multi_thread(engine);
+    runThreads(engine->threads_manager);
     UpdateTexture(engine->texture, engine->image->data);
     int fps = GetFPS();
     ClearBackground(RAYWHITE);
@@ -113,6 +114,7 @@ void    freeEngine(Engine *engine)
         free(engine->image);
     UnloadTexture(engine->texture);
     freeScene(&engine->scene);
+    freeManager(engine->threads_manager);
     free(engine);
     return;
 }

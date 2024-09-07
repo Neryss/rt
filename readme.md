@@ -12,3 +12,6 @@ This is supposed to be a simple raytracing engine and a continuation of [miniRT]
 - [ ] Save image instead of realtime
 - [ ] Multithreading
 - [ ] general optimisation
+- [ ] `-save` should not open a window
+- [ ] threads error handling
+- [ ] fix last scanline on multithreading

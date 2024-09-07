@@ -5,7 +5,7 @@
 
 void    saveImage(Engine *engine, const char *filename)
 {
-    multi_thread(engine);
+    runThreads(engine->threads_manager);
     if (!stbi_write_png(filename, engine->width, engine->height, 4, engine->pixels, 4 * engine->width))
         printf("Error during the save\n");
     else
@@ -14,8 +14,6 @@ void    saveImage(Engine *engine, const char *filename)
 
 int main(int argc, char **argv)
 {
-    (void)argc;
-    (void)argv;
     Engine  *engine = NULL;
 
     engine = initEngine(800, 450, "Now with more threads!");
@@ -25,6 +23,7 @@ int main(int argc, char **argv)
         if (!ft_strcmp(argv[i], "-save"))
         {
             saveImage(engine, "test.png");
+            freeEngine(engine);
             return (1);
         }
     }

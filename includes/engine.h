@@ -18,14 +18,15 @@
 typedef Vec3 t_color;
 typedef struct s_engine
 {
-    int             width;
-    int             height;
-    char            *title;
-    uint32_t        *pixels;
-    Image           *image;
-    Texture2D       texture;
-    t_camera        camera;
-    t_scene         scene;
+    int                 width;
+    int                 height;
+    char                *title;
+    uint32_t            *pixels;
+    Image               *image;
+    Texture2D           texture;
+    t_camera            camera;
+    t_scene             scene;
+    t_threads_manager   *threads_manager;
 }               Engine;
 
 Engine  *initEngine(int width, int height, char *title);
